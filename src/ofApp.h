@@ -25,13 +25,6 @@ public:
         defaultValue = dv;
     }
 
-    size_t lowerBound() {
-        return left.size();
-    }
-    size_t upperBound() {
-        return right.size();
-    }
-
     T& operator[](const intptr_t i) {
         if (i < 0) {
             if (static_cast<size_t>(-i) > left.size())

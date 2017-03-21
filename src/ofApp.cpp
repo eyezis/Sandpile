@@ -7,8 +7,14 @@ void ofApp::setup() {
 
     ofColor c;
     const float limit = c.limit();
-    for (size_t i = 0; i <= PALETTE_COUNT; i++)
-    {
+    // Generate the palette (inspired by thermal images)
+    // %            0          25                      75        100
+    //              |----------|-----------------------|----------|
+    // Hue:        240°       180°                     60°        0°
+    // Brightness:  0         100                     100        100
+    // Saturation: 100        100                     100         0
+    // Color:      Black      Blue                    Red       White
+    for (size_t i = 0; i <= PALETTE_COUNT; i++) {
         const float p = static_cast<float>(i) / PALETTE_COUNT;
 
         float hue = (1 - p) - 1 / 6.0f;
@@ -44,10 +50,8 @@ void ofApp::processFalls()
     auto &source = surface1IsSource ? surface1 : surface2;
     auto &dest = surface1IsSource ? surface2 : surface1;
 
-    for (auto x = source.leftBounds-1; x <= source.rightBounds+1; x++)
-    {
-        for (auto y = source.topBounds-1; y <= source.bottomBounds+1; y++)
-        {
+    for (auto x = source.leftBounds-1; x <= source.rightBounds+1; x++) {
+        for (auto y = source.topBounds-1; y <= source.bottomBounds+1; y++) {
             dest.set(x, y, source(x, y) % 4
                      + source(x-1, y) / 4
                      + source(x+1, y) / 4
@@ -73,10 +77,8 @@ void ofApp::renderSurface()
     buffer.setColor(background);
 
     ofPixels &pixels = buffer.getPixels();
-    for (auto x = surface.leftBounds; x <= surface.rightBounds; x++)
-    {
-        for (auto y = surface.topBounds; y <= surface.bottomBounds; y++)
-        {
+    for (auto x = surface.leftBounds; x <= surface.rightBounds; x++) {
+        for (auto y = surface.topBounds; y <= surface.bottomBounds; y++) {
             //if (surface(x, y) == 0) continue;
 
             const rgb &color = palette[std::min(
